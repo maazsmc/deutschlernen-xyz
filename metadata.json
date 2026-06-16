@@ -1,0 +1,6 @@
+{
+  "name": "German Learning Hub",
+  "description": "Learn German step by step with interactive lessons, quizzes, translations, and a real-time AI conversation partner.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
