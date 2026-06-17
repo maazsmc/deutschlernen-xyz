@@ -117,47 +117,81 @@ const speakGermanWord = (word: string) => {
 };
 
 const parseInlineText = (text: string, isAlphabet?: boolean): React.ReactNode[] => {
-  const boldParts = text.split(/\*\*([^*]+)\*\*/g);
-  return boldParts.map((part, bIdx) => {
-    if (bIdx % 2 === 1) {
-      return (
-        <strong key={`b-${bIdx}`} className="font-extrabold text-slate-950 bg-amber-100/90 py-0.5 px-1.5 rounded border border-amber-200">
-          {part}
-        </strong>
-      );
+  const result: React.ReactNode[] = [];
+  let i = 0;
+  let isBold = false;
+  let isItalic = false;
+  let currentText = "";
+
+  const commit = () => {
+    if (currentText) {
+      const content = currentText;
+      const key = `inline-${i}-${isBold}-${isItalic}`;
+      if (isBold && isItalic) {
+        result.push(
+          <strong key={key} className="font-extrabold text-slate-950 bg-amber-100/90 py-0.5 px-1.5 rounded border border-amber-200">
+            <em className="font-semibold text-rose-600 bg-rose-50 border border-rose-100/60 py-0.5 px-1 rounded-sm not-italic font-sans">
+              {content}
+            </em>
+          </strong>
+        );
+      } else if (isBold) {
+        result.push(
+          <strong key={key} className="font-extrabold text-slate-950 bg-amber-100/90 py-0.5 px-1.5 rounded border border-amber-200">
+            {content}
+          </strong>
+        );
+      } else if (isItalic) {
+        if (isAlphabet) {
+          result.push(
+            <button
+              key={key}
+              onClick={() => speakGermanWord(content)}
+              type="button"
+              title="Click to hear German pronunciation"
+              className="inline-flex items-center gap-1 font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 active:scale-95 border border-rose-200 hover:border-rose-300 py-0.5 px-1.5 rounded-lg cursor-pointer transition-all duration-150 shadow-3xs text-xs sm:text-sm font-sans my-0.5 group"
+            >
+              <em className="not-italic">{content}</em>
+              <span className="inline-block text-[10px] text-rose-450 group-hover:text-rose-600 transition-colors">
+                🔊
+              </span>
+            </button>
+          );
+        } else {
+          result.push(
+            <em key={key} className="font-semibold text-rose-600 bg-rose-50 border border-rose-100/60 py-0.5 px-1 rounded-sm not-italic font-sans">
+              {content}
+            </em>
+          );
+        }
+      } else {
+        result.push(content);
+      }
+      currentText = "";
     }
-    const italicParts = part.split(/\*([^*]+)\*/g);
-    return (
-      <span key={`n-${bIdx}`}>
-        {italicParts.map((sub, iIdx) => {
-          if (iIdx % 2 === 1) {
-            if (isAlphabet) {
-              return (
-                <button
-                  key={`i-${iIdx}`}
-                  onClick={() => speakGermanWord(sub)}
-                  type="button"
-                  title="Click to hear German pronunciation"
-                  className="inline-flex items-center gap-1 font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 active:scale-95 border border-rose-200 hover:border-rose-300 py-0.5 px-1.5 rounded-lg cursor-pointer transition-all duration-150 shadow-3xs text-xs sm:text-sm font-sans my-0.5 group"
-                >
-                  <em className="not-italic">{sub}</em>
-                  <span className="inline-block text-[10px] text-rose-450 group-hover:text-rose-600 transition-colors">
-                    🔊
-                  </span>
-                </button>
-              );
-            }
-            return (
-              <em key={`i-${iIdx}`} className="font-semibold text-rose-600 bg-rose-50 border border-rose-100/60 py-0.5 px-1 rounded-sm not-italic font-sans">
-                {sub}
-              </em>
-            );
-          }
-          return sub;
-        })}
-      </span>
-    );
-  });
+  };
+
+  while (i < text.length) {
+    if (text.startsWith("***", i)) {
+      commit();
+      isBold = !isBold;
+      isItalic = !isItalic;
+      i += 3;
+    } else if (text.startsWith("**", i)) {
+      commit();
+      isBold = !isBold;
+      i += 2;
+    } else if (text.startsWith("*", i)) {
+      commit();
+      isItalic = !isItalic;
+      i += 1;
+    } else {
+      currentText += text[i];
+      i++;
+    }
+  }
+  commit();
+  return result;
 };
 
 const MarkdownRenderer: React.FC<{ content: string; isAlphabet?: boolean }> = ({ content, isAlphabet }) => {
@@ -1384,7 +1418,7 @@ export default function App() {
                           </span>
                         </div>
 
-                        <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+                        <div className="space-y-2 max-h-[268px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
                           {levLessons.map((les) => {
                             const isSelected = selectedLesson.id === les.id;
                             const isDone = completedLessons.includes(les.id);
@@ -1498,7 +1532,7 @@ export default function App() {
                         <h4 className="text-xs font-black tracking-widest text-amber-400 uppercase">Grammar Spotlight</h4>
                       </div>
                       <p className="text-slate-200 leading-relaxed text-xs sm:text-sm">
-                        {selectedLesson.keyGrammar}
+                        {parseInlineText(selectedLesson.keyGrammar)}
                       </p>
                     </div>
                   </div>
@@ -2006,7 +2040,7 @@ export default function App() {
             
             {/* If no quiz has been requested yet */}
             {!activeQuiz && !isFetchingQuiz && (
-              <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 text-center max-w-xl mx-auto space-y-6 shadow-xs">
+              <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 text-center max-w-5xl mx-auto space-y-6 shadow-xs animate-fade-in">
                 <div className="w-16 h-16 rounded-3xl bg-pink-50 text-rose-500 mx-auto flex items-center justify-center shadow-xs">
                   <Award className="w-8 h-8 stroke-[2px]" />
                 </div>
@@ -2045,18 +2079,18 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[320px] overflow-y-auto pr-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                     {GERMAN_LESSONS.filter(l => l.level === quizFilterLevel).map((les) => (
                       <button
                         key={les.id}
                         onClick={() => { startCustomQuiz(les.quizTopic, les.level); }}
-                        className="p-3.5 bg-slate-50 hover:bg-slate-100/90 border border-slate-200 text-slate-800 font-bold rounded-xl text-xs text-left flex justify-between items-center transition-all group"
+                        className="p-3 bg-slate-50 hover:bg-slate-100/90 border border-slate-200 text-slate-800 font-bold rounded-xl text-xs text-left flex justify-between items-center transition-all group overflow-hidden min-w-0"
                       >
-                        <div>
-                          <p className="text-[9px] text-rose-600 italic uppercase font-mono font-bold tracking-wider">{les.level} • {les.germanTitle}</p>
-                          <p className="truncate max-w-[170px] mt-0.5">{getDisplayTitle(les)}</p>
+                        <div className="min-w-0 flex-1 pr-2">
+                          <p className="text-[9px] text-rose-600 italic uppercase font-mono font-bold tracking-wider truncate">{les.level} • {les.germanTitle}</p>
+                          <p className="truncate mt-0.5" title={getDisplayTitle(les)}>{getDisplayTitle(les)}</p>
                         </div>
-                        <Play className="w-3 h-3 text-slate-400 group-hover:text-slate-800 transition-all" />
+                        <Play className="w-3 h-3 text-slate-400 group-hover:text-slate-800 shrink-0 transition-all" />
                       </button>
                     ))}
                   </div>

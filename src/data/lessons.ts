@@ -137,9 +137,9 @@ Here is how each letter is pronounced on its own. **Click the red words to hear 
   {
     id: "l3",
     level: "A1",
-    title: "3. Counting & Numbers 0-100+",
-    germanTitle: "Zahlen von 0 bis 100",
-    description: "Learn to write and quickly call numbers 0 to 100, exchange telephone coordinate sequences, and speak your age.",
+    title: "3. Counting & Numbers 0-1,000,000",
+    germanTitle: "Zahlen bis eine Million",
+    description: "Learn to recognize, write, and quickly call numbers from 0 to 1,000,000, buy items, exchange phone numbers, and talk about your age.",
     explanation: `Numbers are necessary for checking prices, reading clocks, giving phone numbers, and talking about your age. In German, numbers above 20 follow a backward 'unit-and-ten' order!
 
 ### 1. Baseline Numbers 0 to 12 (Irregular):
@@ -165,7 +165,7 @@ For numbers between the tens (like 21, 54, 87), Germans state the single unit fi
 * 35: *five-and-thirty* = **fünfunddreißig**
 * 54: *four-and-fifty* = **vierundfünfzig**
 * 87: *seven-and-eighty* = **siebenundachtzig**
-* 100: **hundert** or **einhundert**.
+* 100: **(ein)hundert**, 200: **zweihundert**, 345: **dreihundertfünfundvierzig**, 1,000: **(ein)tausend**, 10,000: **zehntausend**, 100,000: **hunderttausend**, 1,000,000: **eine Million** (e.g. 745,600 is *siebenhundertfünfundvierzigtausendsechshundert*).
 
 ### 5. Stating Age (Alter):
 * Question: **Wie alt bist du?** (How old are you?)
@@ -400,6 +400,63 @@ German uses two registers:
     quizTopic: "Numbers and Formal and Informal Time Expressions"
   },
   {
+    id: "l8b",
+    level: "A1",
+    title: "8b. Calendar, Birthdays & Ordinal Numbers",
+    germanTitle: "Geburtstage, Kalender & Ordinalzahlen",
+    description: "Learn to ask for and state your birthday, name the months of the year, and build ordinal numbers to express dates in German.",
+    explanation: `Expressing dates (*das Datum*), announcing your birthday (*der Geburtstag*), or reciting calendar schedules relies on a key grammatical group: **Ordinal Numbers** (Ordinalzahlen). 
+
+---
+
+### 1. Constructing Ordinal Numbers (1st, 2nd, 3rd...):
+German ordinals are formed by adding suffixes to the cardinal numbers:
+1. **Numbers 1 to 19**: Add **-te** to the number.
+   * *2 -> zweite* (second)
+   * *4 -> vierte* (fourth)
+   * *Irregular exceptions to master:*
+     * **1 -> erste** (first)
+     * **3 -> dritte** (third)
+     * **7 -> siebte** (seventh)
+     * **8 -> achte** (eighth)
+2. **Numbers 20 and above**: Add **-ste** to the number.
+   * *20 -> zwanzigste* (twentieth)
+   * *30 -> dreißigste* (thirtieth)
+   * *31 -> einunddreißigste* (thirty-first)
+
+---
+
+### 2. Saying "On the [Date]" (Dative Suffix change):
+When preceded by the preposition **am** (on) in a sentence to say when something takes place, the ordinal helper gains an extra **-n** (forming **-ten** or **-sten** suffix endings):
+* **Numbers 1 to 19** -> **-ten**:
+  * *am ersten Mai* (on the first of May)
+  * *am dritten August* (on the third of August)
+* **Numbers 20 and above** -> **-sten**:
+  * *am zwanzigsten Juni* (on the twentieth of June)
+  * *am einunddreißigsten Dezember* (on the thirty-first of December)
+
+---
+
+### 3. Birthday Dialogues (Geburtstag):
+* **Wann hast du Geburtstag?** (When is your birthday?)
+  * -> **Ich habe am vierundzwanzigsten August Geburtstag.** (My birthday is on August 24th.)
+* **Wann bist du geboren?** (When were you born? - Uses Perfekt "bist geboren" template)
+  * -> **Ich bin im Jahr zweitausend geboren.** (I was born in the year 2000.)
+  * -> **Ich bin am zehnten Januar geboren.** (I was born on January 10th.)`,
+    keyGrammar: "Ordinal numbers for 1-19 take suffix '-te', while 20+ take '-ste'. When answering when with 'am' (on the), these suffix endings decline into '-ten' and '-sten'.",
+    vocabulary: [
+      { german: "der Geburtstag", pronunciation: "dair geh-BOORTS-tahk", english: "the birthday" },
+      { german: "am ersten", pronunciation: "ahm EHR-sten", english: "on the first" },
+      { german: "am dritten", pronunciation: "ahm DRIT-ten", english: "on the third" },
+      { german: "am zwanzigsten", pronunciation: "ahm TSVAN-tsikh-sten", english: "on the twentieth" },
+      { german: "wann hast du Geburtstag?", pronunciation: "vahn hahst doo geh-BOORTS-tahk", english: "when is your birthday?" },
+      { german: "ich bin geboren", pronunciation: "ikh bin geh-BOH-ren", english: "I was born" },
+      { german: "der Kalender", pronunciation: "dair kah-LEN-der", english: "the calendar" },
+      { german: "das Datum", pronunciation: "dahs DAH-toom", english: "the date" }
+    ],
+    quizTopic: "Ordinal Numbers and German Birthday Dialogues"
+  },
+  {
     id: "l9",
     level: "A1",
     title: "9. Foods, Drinks & The Accusative Case",
@@ -543,6 +600,113 @@ In the singular (ich, du, er/sie/es), modal verbs change their vowel stem. Furth
     quizTopic: "Modal Verbs Word Orders"
   },
   {
+    id: "l12b",
+    level: "A1",
+    title: "12b. Answering Questions: 'Ja', 'Nein' & 'Doch'",
+    germanTitle: "Fragen beantworten: Ja, Nein & Doch",
+    description: "Learn to build and answer yes/no questions, and master the special, essential German word 'doch' for negative queries.",
+    explanation: `Answering questions correctly in German requires learning a special, highly unique grammatical rule: the word **doch**! In German, how you reply depends entirely on whether the question is phrased positively or contains a negative word.
+
+### 1. Structure of yes/no questions (Ja/Nein-Fragen):
+Unlike English which uses auxiliary helpers like "do" (e.g., "Do you drink tea?"), German yes/no questions are built simply by putting the **conjugated verb in Position 1** followed by the subject:
+* *English:* Do you work today?
+* *German:* **Arbeitest** (Position 1: verb) **du** (Position 2: subject) heute?
+* *English:* Do you drink coffee?
+* *German:* **Trinkst** (Position 1: verb) **du** (Position 2: subject) Kaffee?
+
+---
+
+### 2. Standard Positive Questions: 'Ja' and 'Nein'
+If a question is positive (does NOT contain negative words like *nicht* or *kein*), answering is simple:
+* **Ja** = Yes (affirming the action)
+* **Nein** = No (denying the action)
+
+*Example:*
+* **Trinkst du Kaffee?** (Do you drink coffee?)
+  * -> **Ja**, ich trinke Kaffee. (Yes, I drink coffee.)
+  * -> **Nein**, ich trinke keinen Kaffee. (No, I don't drink coffee.)
+
+---
+
+### 3. Negative Questions: Enter 'Doch'!
+If a question contains a negative word (like **nicht** - not, or **kein / keine** - no/not any), you **CANNOT** use *ja* to say "yes, I do". Instead, you must use the special word **doch**!
+* **Doch** = "On the contrary, yes I do!" (disproving/overruling the negative question)
+* **Nein** = "No, you are right, I do not." (agreeing with the negative question)
+
+*Example 1 with 'nicht':*
+* **Arbeitest du heute nicht?** (Are you not working today?)
+  * -> **Doch!** Ich arbeite heute. (On the contrary, yes I am working!)
+  * -> **Nein**, ich arbeite heute nicht. (No, I am not working.)
+
+*Example 2 with 'kein':*
+* **Hast du keine Geschwister?** (Do you have no siblings?)
+  * -> **Doch!** Ich habe zwei Brüder. (Actually yes, I do have siblings! I have two brothers.)
+  * -> **Nein**, ich habe keine Geschwister. (No, I have no siblings.)
+
+Mastering **doch** is one of the most rewarding milestones of A1 German. It instantly makes your conversations sound natural and authentic!`,
+    keyGrammar: "Yes/No questions have the verb in Position 1. Affirming positive questions takes 'ja'; dismissing negative questions (containing nicht/kein) takes 'doch'; denying either takes 'nein'.",
+    vocabulary: [
+      { german: "doch", pronunciation: "dokh", english: "on the contrary / yes (answering negative question)", notes: "Crucial German response" },
+      { german: "nicht", pronunciation: "nikht", english: "not", notes: "Used to negate verbs/adjectives" },
+      { german: "keine", pronunciation: "KY-neh", english: "no / not any (feminine/plural)", notes: "Used to negate nouns" },
+      { german: "gern", pronunciation: "gairn", english: "gladly", notes: "Often used when accepting: 'Ja, gerne!'" },
+      { german: "stimmen", pronunciation: "SHTIM-men", english: "to be correct", notes: "Das stimmt = That's correct" },
+      { german: "die Antwort", pronunciation: "dee AHNT-vort", english: "the answer" },
+      { german: "die Frage", pronunciation: "dee FRAH-geh", english: "the question" },
+      { german: "fragen", pronunciation: "FRAH-gen", english: "to ask" }
+    ],
+    quizTopic: "Answering Questions with Ja, Nein, and Doch"
+  },
+  {
+    id: "l12c",
+    level: "A1",
+    title: "12c. Direct Objects: Personal Pronouns in Accusative",
+    germanTitle: "Personalpronomen im Akkusativ",
+    description: "Learn to replace nouns with direct object pronouns (mich, dich, ihn, es, sie, uns, euch, sie, Sie) after accusative verbs.",
+    explanation: `Just like in English, pronouns in German change their form when they act as the direct object of a verb (receiving the action). For example: "I see **him**" (not "I see *he*"). In German, this is called the **Accusative Case**.
+
+---
+
+### 1. Nominative vs. Accusative Personal Pronouns:
+Note that only **er** (he -> him) changes its form dramatically, while **es**, **sie**, and formal **Sie** remain identical to their nominative forms:
+
+| Nominative (Subject) | Accusative (Direct Object) | English Translation |
+|---|---|---|
+| **ich** (I) | **mich** | me |
+| **du** (you, informal) | **dich** | you (informal, singular) |
+| **er** (he) | **ihn** | him |
+| **es** (it) | **es** | it |
+| **sie** (she) | **sie** | her |
+| **wir** (we) | **uns** | us |
+| **ihr** (you all) | **euch** | you all (informal, plural) |
+| **sie** (they) | **sie** | them |
+| **Sie** (you, formal) | **Sie** | you (formal, singular & plural) |
+
+---
+
+### 2. Common Accusative Verbs in A1:
+Many basic A1 verbs require an Accusative direct object:
+* **anrufen** (to call on the phone) -> *Sven ruft **mich** an.* (Sven is calling me.)
+* **abholen** (to pick up) -> *Kannst du **uns** am Bahnhof abholen?* (Can you pick us up at the station?)
+* **lieben** (to love) -> *Ich liebe **dich**.* (I love you.)
+* **verstehen** (to understand) -> *Wir verstehen **ihn** nicht.* (We do not understand him.)
+* **suchen** (to search/look for) -> *Er sucht **sie**.* (He is looking for her.)
+
+*Caution:* Some verbs like *helfen* (to help) or *antworten* (to answer) always require the **Dative Case** (e.g. *hilft mir* - helps me), which you will master in later sections!`,
+    keyGrammar: "Personal pronouns acting as direct objects must decline into Accusative. Only 'er' changes to 'ihn' in third person singular, others match or use direct object forms (mich/dich, uns/euch).",
+    vocabulary: [
+      { german: "mich", pronunciation: "mikh", english: "me (Accusative)" },
+      { german: "dich", pronunciation: "dikh", english: "you (Accusative, informal singular)" },
+      { german: "ihn", pronunciation: "een", english: "him (Accusative)" },
+      { german: "uns", pronunciation: "oons", english: "us (Accusative)" },
+      { german: "euch", pronunciation: "oykh", english: "you all (Accusative, informal plural)" },
+      { german: "anrufen", pronunciation: "AHN-roo-fen", english: "to call on the phone" },
+      { german: "abholen", pronunciation: "AHP-hay-len", english: "to pick up / collect" },
+      { german: "verstehen", pronunciation: "fair-SHTAY-en", english: "to understand" }
+    ],
+    quizTopic: "Accusative Personal Pronouns"
+  },
+  {
     id: "l13",
     level: "A1",
     title: "13. Shopping, Clothing & Colors",
@@ -667,11 +831,19 @@ You can state pain in two standard ways:
 * **geradeaus** - straight ahead / **links** - left / **rechts** - right.
 * **erste Querstraße links** - first cross street on the left.
 
-### 4. Giving Polite Suggestions (The Formal Imperative):
-To tell someone politely to go somewhere, place the Verb in **Position 1** followed immediately by **Sie**:
-* **Gehen Sie geradeaus!** - Go straight ahead!
-* **Biegen Sie rechts ab!** - Turn right! (from the separable verb *abbiegen*)
-* **Entschuldigen Sie!** - Pardon/Excuse me!`,
+### 4. Giving Directions & Commands (The Imperative):
+The Imperative is used to give directions, commands, or advice. German has three primary imperative structures depending on whom you are addressing:
+
+1. **Formal (Sie-Form)**: Put the conjugated verb in **Position 1** followed by **Sie**.
+   * *Gehen* -> **Gehen Sie geradeaus!** (Go straight ahead!)
+   * *Abbiegen* -> **Biegen Sie rechts ab!** (Turn right!)
+2. **Informal Singular (du-Form)**: Drop the subject "du" and remove the "-st" ending from the conjugated verb.
+   * *Gehen (du gehst)* -> **Geh geradeaus!** (Go straight ahead!)
+   * *Abbiegen (du biegst ab)* -> **Bieg rechts ab!** (Turn right!)
+   * *Sprechen (du sprichst)* -> **Sprich langsamer!** (Speak slower!)
+3. **Informal Plural (ihr-Form)**: Drop the subject "ihr" but keep the regular plural "-t" verb conjugation.
+   * *Gehen (ihr geht)* -> **Geht geradeaus!** (Go all straight!)
+   * *Abbiegen (ihr biegt ab)* -> **Biegt rechts ab!** (Turn all right!)`,
     keyGrammar: "Polite formal imperative: Verb (Position 1) + Sie. Substantive nouns combine in dative when asking 'How do I get to...': **zum** (to masculine/neuter *zu dem*) and **zur** (to feminine *zu der*).",
     vocabulary: [
       { german: "der Bahnhof", pronunciation: "dair BAHN-hohf", english: "the train station" },
@@ -684,6 +856,58 @@ To tell someone politely to go somewhere, place the Verb in **Position 1** follo
       { german: "zur Toilette", pronunciation: "tsoor toy-LET-teh", english: "to the toilet" }
     ],
     quizTopic: "City Venues, Directions and Polite Imperatives"
+  },
+  {
+    id: "l16b",
+    level: "A1",
+    title: "16b. Prepositions commanding the Dative Case",
+    germanTitle: "Präpositionen mit Dativ",
+    description: "Master the required A1 prepositions (mit, zu, bei, nach, aus, von, seit) that always demand the dative case.",
+    explanation: `In German, prepositions are grammar bosses; they dictate the grammatical case of the noun that follows them. One highly important group of prepositions ALWAYS demands the **Dative Case** (indirect object settings).
+
+---
+
+### 1. The Dative Declension Chart (Quick Reminder):
+When a noun is pushed into the Dative case, its preceding articles change as follows:
+* **der / das** -> **dem** (or merged: *zu dem* = **zum**, *bei dem* = **beim**, *von dem* = **vom**, *in dem* = **im**)
+* **die** (singular) -> **der** (or merged: *zu der* = **zur**)
+* **die** (plural) -> **den** (and the plural noun itself usually gains an **-n** at the end: *mit den Kindern*)
+
+---
+
+### 2. The Golden Seven Dative Prepositions in A1:
+Learn these 7 prepositions by heart, as they are essential for describing travel, appointments, and backgrounds:
+
+* **mit** (with / by transportation):
+  * *Ich fahre **mit dem** Bus.* (I go by bus.)
+  * *Kommst du **mit mir**?* (Are you coming with me?)
+* **zu** (to physical buildings / static directions):
+  * *Wie komme ich **zur** Schule (zu der Schule)?* (How do I get to school?)
+  * *Ich gehe **zum** Bahnhof (zu dem Bahnhof).* (I am going to the station.)
+* **bei** (at/with a person, business, or professional):
+  * *Ich wohne **bei meinen** Eltern.* (I live with my parents.)
+  * *Er ist **beim** Arzt (bei dem Arzt).* (He is at the doctor's office.)
+* **nach** (to cities/countries, or 'after' in time settings):
+  * *Wir fliegen **nach** Deutschland.* (We are flying to Germany.)
+  * *Ich trinke **nach dem** Kurs einen Kaffee.* (I'll drink a coffee after the course.)
+* **aus** (from / out of):
+  * *Ich komme **aus der** Türkei.* (I come from Turkey.)
+* **von** (from a person or source):
+  * *Das ist ein Geschenk **von meinem** Onkel.* (This is a present from my uncle.)
+* **seit** (since / for ongoing time durations):
+  * *Ich lerne **seit einem** Monat Deutsch.* (I have been learning German for a year.)`,
+    keyGrammar: "Some prepositions act as absolute dative markers. 'Mit, zu, bei, nach, aus, von, seit' always govern the Dative Case, shifting articles (der/das -> dem, die -> der, plural -> den + n).",
+    vocabulary: [
+      { german: "mit dem Bus", pronunciation: "mit dehm boos", english: "by bus / with the bus" },
+      { german: "beim Arzt", pronunciation: "bym artst", english: "at the doctor's" },
+      { german: "zur Schule", pronunciation: "tsoor SHOO-leh", english: "to school" },
+      { german: "nach dem Kurs", pronunciation: "nahkh dehm koors", english: "after the course" },
+      { german: "seit einem Monat", pronunciation: "zyt_Y-nem MOH-naht", english: "since/for a month" },
+      { german: "aus der Schweiz", pronunciation: "ows dair shvyts", english: "from Switzerland" },
+      { german: "bei mir", pronunciation: "bym meer", english: "at my place / with me" },
+      { german: "vom Bahnhof", pronunciation: "fom BAHN-hohf", english: "from the train station" }
+    ],
+    quizTopic: "Prepositions with Dative Case"
   },
   {
     id: "l17",
@@ -757,6 +981,63 @@ Perfect for ownership or conditions in the past:
       { german: "Keine Zeit haben", pronunciation: "KY-neh tsyt HAH-ben", english: "to have no time" }
     ],
     quizTopic: "Präteritum of Sein and Haben"
+  },
+  {
+    id: "l18b",
+    level: "A1",
+    title: "18b. Conversational Past Tense (Perfekt)",
+    germanTitle: "Das Perfekt (Haben vs. Sein)",
+    description: "Learn how to speak about what you did using the primary German past tense with helper verbs 'haben' or 'sein' and past participles.",
+    explanation: `When describing what happened in past conversations (e.g., "What did you do yesterday?", "I went to Berlin"), spoken German prefers the **Perfekt** (Conversational Past) over the Simple Past (*Präteritum*), which is reserved for written literature and newspapers. This was introduces in Chapter 8 and 9 of your textbook.
+
+---
+
+### 1. The Perfekt Formula:
+An action in the conversational past consists of two parts:
+\`Subject + Auxiliary Verb (Position 2) + ...other details... + Past Participle (Absolute End)\`
+
+*Example:*
+* **Active:** Ich lerne Deutsch. (I learn German.)
+* **Past:** Ich **habe** Deutsch **gelernt**. (I learned German.)
+
+---
+
+### 2. The Two Auxiliary Helpers: 'Haben' or 'Sein'?
+You must pair the past participle with either **haben** or **sein** conjugated in Position 2.
+1. **sein** is used ONLY for:
+   * Verbs representing **active physical movements** from location A to B (e.g., *gehen* - to go/walk, *fahren* - to drive, *kommen* - to come).
+   * Verbs representing a **change of physical state** (e.g., *aufstehen* - to get up, *aufwachen* - to wake up, *einschlafen* - to fall asleep).
+   * The exceptions *sein* (to be) and *bleiben* (to stay).
+2. **haben** is used for all other regular and transitive verbs (eating, drinking, buying, doing).
+
+*Examples with 'sein' (movement/state-change):*
+* **Ich bin nach Berlin gefahren.** (I drove to Berlin.)
+* **Sie ist um sieben Uhr aufgestanden.** (She got up at seven o'clock.)
+
+*Examples with 'haben' (regular actions):*
+* **Wir haben Pizza gegessen.** (We ate pizza.)
+* **Hast du ein Book gekauft?** (Did you buy a book?)
+
+---
+
+### 3. Creating Past Participles (Partizip II):
+For most regular verbs, you construct the past participle by wrapping the base verb stem with the prefix **ge-** and suffix **-t** (e.g., *machen* -> *ge-mach-t*). Irregular verbs change stems and end in **-en** (e.g., *sehen* -> *ge-seh-en*).
+* **machen** -> **gemacht** (done/made)
+* **kaufen** -> **gekauft** (bought)
+* **trinken** -> **getrunken** (drunk)
+* **gehen** -> **gegangen** (gone/walked)`,
+    keyGrammar: "Perfekt consists of conjugated helper 'haben' or 'sein' in Position 2, with the past participle 'Partizip II' kicked to the absolute end. Movement/state-change verbs select 'sein' as auxiliary.",
+    vocabulary: [
+      { german: "gemacht", pronunciation: "geh-MAHKHT", english: "done / made", notes: "From machen" },
+      { german: "gegangen", pronunciation: "geh-GAHNG-en", english: "gone / walked", notes: "From gehen (uses 'sein')" },
+      { german: "gefahren", pronunciation: "geh-FAH-ren", english: "driven / traveled", notes: "From fahren (uses 'sein')" },
+      { german: "gegessen", pronunciation: "geh-GES-sen", english: "eaten", notes: "From eating (essen)" },
+      { german: "getrunken", pronunciation: "geh-TROON-ken", english: "drunk", notes: "From drinking (trinken)" },
+      { german: "gekauft", pronunciation: "geh-KOWFT", english: "bought", notes: "From kaufen" },
+      { german: "aufgestanden", pronunciation: "OWF-geh-shtahn-den", english: "stood up / got up", notes: "Separable, ge- goes inside (uses 'sein')" },
+      { german: "was hast du gemacht?", pronunciation: "vahs hahst doo geh-MAHKHT", english: "what did you do?" }
+    ],
+    quizTopic: "The German Perfekt Past Tense"
   },
   {
     id: "l19",
