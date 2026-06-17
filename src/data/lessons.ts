@@ -1646,6 +1646,128 @@ To buy medicine at the pharmacy (*die Apotheke*), you often need an official sli
     quizTopic: "Workplace Routine and Career Development Vocabulary"
   },
   {
+    id: "l41b",
+    level: "A2",
+    title: "41b. Conjunctions & Word Order (ADUSO vs. Inversion)",
+    germanTitle: "Konjunktionen und Wortstellung",
+    description: "Demystify word order after connectors! Distinguish Position 0 conjunctions (ADUSO) from adverbial conjunctions that cause subject-verb inversion.",
+    explanation: `German conjunctions are categorized into three groups based on how they affect the word order of the clause. Master these three categories to construct complex ideas flawlessly!
+
+### 1. Coordinate Conjunctions (ADUSO) — Position 0:
+These connectors link elements without changing the original word order of the sentence. They are:
+* **A**ber (but)
+* **D**enn (because - coordinating)
+* **U**nd (and)
+* **S**ondern (but rather - used after a negative statement)
+* **O**der (or)
+
+They sit in **Position 0**. The subject immediately follows in Position 1, and the conjugated verb sits in Position 2:
+* *Ich mag Kaffee, **aber** ich trinke Tee.* (Position 0: *aber*, Position 1: *ich*, Position 2: *trinke*)
+* *Er kommt nicht heute, **denn** er ist krank.* (He is not coming today, because he is sick.)
+
+### 2. Adverbial Conjunctions — Position 1 (Inversion):
+These act as adverbs representing cause, concession, or time. When they start a clause, they occupy **Position 1**, forcing the conjugated verb to come immediately in **Position 2**, and pushing the subject to **Position 3** (Inversion):
+* **deshalb / darum / deswegen** (therefore / that's why)
+* **trotzdem** (nevertheless / anyway)
+* **sonst** (otherwise)
+* **dann / danach** (then / after that)
+
+*Examples:*
+* *Ich bin müde, **deshalb** gehe ich ins Bett.* (Therefore I go to bed.)
+* *Es regnet, **trotzdem** spielen die Kinder draußen.* (It is raining, nevertheless the children are playing outside.)`,
+    keyGrammar: "Position 0 connectors (ADUSO) keep standard SV order. Position 1 connectors (deshalb, trotzdem, sonst) require immediate verb-subject inversion (V + S).",
+    vocabulary: [
+      { german: "deshalb", pronunciation: "des-HALP", english: "therefore / that's why" },
+      { german: "trotzdem", pronunciation: "TROTTS-dem", english: "nevertheless / anyway" },
+      { german: "sondern", pronunciation: "ZON-dern", english: "but rather" },
+      { german: "sonst", pronunciation: "zonst", english: "otherwise" },
+      { german: "danach", pronunciation: "dah-NAHKH", english: "afterwards / after that" },
+      { german: "denn", pronunciation: "den", english: "because (coordinating)" },
+      { german: "darum", pronunciation: "DAH-room", english: "therefore" },
+      { german: "oder", pronunciation: "OH-der", english: "or" }
+    ],
+    quizTopic: "Coordinating Conjunctions and Inversion Word Order"
+  },
+  {
+    id: "l41c",
+    level: "A2",
+    title: "41c. Travel, Train Bookings & Transfers",
+    germanTitle: "Reisen, Fahrkarten und Umsteigen",
+    description: "Master traveling via railways, purchasing tickets on local transit, dealing with delays, and understanding system announcements.",
+    explanation: `Traveling by train is a way of life in German-speaking countries. To comfortably navigate the railway system (*die Deutsche Bahn*) and local public transit (*der ÖPNV*), you must know standard phrases and announcements.
+
+### 1. At the Station & Platform (Am Bahnhof und am Gleis):
+* **das Gleis** - track / platform: *Der Zug fährt auf Gleis vier ab.* (The train departs on track 4.)
+* **die Abfahrt** (departure) vs. **die Ankunft** (arrival)
+* **die Verspätung** (delay) - very common!
+  * *Der Zug hat leider 15 Minuten Verspätung.* (The train unfortunately has a 15-minute delay.)
+
+### 2. Buying Tickets (Fahrkarten kaufen):
+* **die Fahrkarte** or **das Ticket** - ticket
+* **einfache Fahrt** (one-way ticket) vs. **Hin- und Rückfahrt** (round-trip ticket)
+* **Fahrkarte entwerten** - validating/stamping the ticket (mandatory on many municipal trains/busses!).
+* **die Kontrolle** - ticket inspection: *Die Fahrkarten, bitte!* (Tickets, please!)
+
+### 3. Making Connection Transfers (Die Verbindung & Umsteigen):
+* **umsteigen** - to transfer / change trains (separable!)
+* **einsteigen** (to board) vs. **aussteigen** (to disembark)
+* **direkte Verbindung** - direct train connection (no transfers needed).
+  * *Muss ich umsteigen?* (Do I have to transfer/change trains?)
+  * *Nein, das ist eine direkte Verbindung.* (No, it is a direct connection.)`,
+    keyGrammar: "Separable transport verbs: einsteigen, aussteigen, umsteigen (e.g. 'Ich steige in Frankfurt um'). Prepositions with transport: 'mit der U-Bahn' (by subway - dative feminine), 'mit dem Zug' (by train - dative masculine).",
+    vocabulary: [
+      { german: "umsteigen", pronunciation: "OOM-tsee-gen", english: "to transfer / change trains (separable)" },
+      { german: "das Gleis", pronunciation: "dahs glyss", english: "the train track / platform" },
+      { german: "die Verspätung", pronunciation: "dee fair-SHPAY-toong", english: "the delay" },
+      { german: "einfache Fahrt", pronunciation: "YN-fah-kheh fahrt", english: "one-way ticket" },
+      { german: "direkt", pronunciation: "dee-REKT", english: "direct / direct connection" },
+      { german: "aussteigen", pronunciation: "OWS-tsee-gen", english: "to disembark / exit (separable)" },
+      { german: "einsteigen", pronunciation: "YN-tsee-gen", english: "to board / enter train (separable)" },
+      { german: "der Schaffner", pronunciation: "dair SHAHF-ner", english: "the ticket conductor" }
+    ],
+    quizTopic: "Public Rail Transit and Travel Dialogues"
+  },
+  {
+    id: "l41d",
+    level: "A2",
+    title: "41d. Feasts, Cultural Celebrations & Congratulations",
+    germanTitle: "Feste, Feiertage & Glückwünsche",
+    description: "Learn how to describe celebratory events, invite others to festivals, and extend elegant congratulations for birthdays and holidays.",
+    explanation: `German culture is rich with festivals (*Feste*), holidays (*Feiertage*), and family gatherings. Learn to celebrate birthdays, weddings, Christmas, and Easter, and wish others well!
+
+### 1. Major German Holidays & Events:
+* **das Ostern** (Easter)
+* **das Weihnachten** (Christmas): *Frohe Weihnachten!* (Merry Christmas!)
+* **das Silvester** (New Year's Eve): *Guten Rutsch!* (literally: "Good slide!" = Happy New Year!)
+* **der Geburtstag** (birthday)
+* **die Hochzeit** (wedding)
+
+### 2. Giving Wishes & Best Congratulations:
+When congratulating others on special achievements or lifecycle milestones, Germans use standard dative expressions:
+* *Herzlichen Glückwunsch zum Geburtstag!* (Heartfelt congratulations on your birthday!)
+* *Alles Gute!* (All the best!)
+* *Gratulieren* (to congratulate) always takes a **Dative** beneficiary object!
+  * *Ich gratuliere **dir**.* (I congratulate you.)
+  * *Wir gratulieren **Ihnen** herzlich zur Hochzeit.* (We congratulate you formally on your wedding.)
+
+### 3. Standard Expressions:
+* **Guten Appetit!** - Enjoy your meal! (spoken before dining)
+* **Prost!** or **Zum Wohl!** - Cheers! (spoken during toasts)
+* **Frohe Ostern!** - Happy Easter!`,
+    keyGrammar: "Dative congratulations formulas using 'zu' (zum Geburtstag, zur Hochzeit). Verbs requiring dative: 'gratulieren' (e.g. 'Ich gratuliere dir zum Geburtstag').",
+    vocabulary: [
+      { german: "Herzlichen Glückwunsch!", pronunciation: "HERT-likh-en GLEWK-voonsh", english: "Heartfelt congratulations!" },
+      { german: "gratulieren", pronunciation: "grah-too-LEER-en", english: "to congratulate (+ Dative)" },
+      { german: "der Geburtstag", pronunciation: "dair geh-BOORTS-tahk", english: "the birthday" },
+      { german: "die Hochzeit", pronunciation: "dee HOKH-tsyt", english: "the wedding" },
+      { german: "Guten Rutsch!", pronunciation: "GOO-ten rootsh", english: "Happy New Year!" },
+      { german: "Frohe Weihnachten!", pronunciation: "FROH-eh VY-nahkh-ten", english: "Merry Christmas!" },
+      { german: "Prost!", pronunciation: "prohst", english: "Cheers!" },
+      { german: "feiern", pronunciation: "FY-ern", english: "to celebrate / party" }
+    ],
+    quizTopic: "German Cultural Festivals and Birthday Greetings"
+  },
+  {
     id: "l42",
     level: "B1",
     title: "42. Subordinate Clauses (Verb-Kickers)",

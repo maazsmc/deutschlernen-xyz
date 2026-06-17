@@ -244,7 +244,7 @@ const getDisplayTitle = (les: Lesson) => {
 
 export default function App() {
   // Navigation
-  const [activeTab, setActiveTab] = useState<"lessons" | "chat" | "translator" | "quiz" | "practice">("lessons");
+  const [activeTab, setActiveTab] = useState<"home" | "lessons" | "chat" | "translator" | "quiz" | "practice">("home");
 
   // Mobile/Tablet views toggles to avoid over-scrolling layouts
   const [mobileShowRoadmap, setMobileShowRoadmap] = useState<boolean>(false);
@@ -838,24 +838,14 @@ export default function App() {
       {/* Header Panel */}
       <header className="border-b border-slate-200 bg-white sticky top-0 z-40 shadow-xs" id="germ_hub_header">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4">
-          <div className="flex flex-col sm:flex-row items-center sm:items-baseline gap-2.5 sm:gap-3">
-            <Logo size="sm" />
-            
-            {/* PWA Install App actions */}
-            <div className="flex items-center gap-1.5 mt-0.5 sm:mt-1 px-1">
-              {/* Install PWA Prompt Button */}
-              {showInstallBtn && (
-                <button
-                  onClick={triggerPWAInstall}
-                  className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-slate-900 hover:bg-slate-800 text-white transition-colors duration-200 shadow-3xs"
-                  id="btn_install_app"
-                  title="Configure German Hub as a standalone desktop or mobile application"
-                >
-                  <Download className="w-2.5 h-2.5 animate-bounce" />
-                  <span>Install App</span>
-                </button>
-              )}
-            </div>
+          <div className="flex flex-row items-center justify-center sm:justify-start gap-3 sm:gap-4 flex-wrap">
+            <button
+              onClick={() => setActiveTab("home")}
+              className="hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer text-left focus:outline-hidden"
+              title="Go to Home Dashboard"
+            >
+              <Logo size="sm" />
+            </button>
           </div>
 
           {/* Tab Navigation Controls - highly streamlined & responsive */}
@@ -951,6 +941,340 @@ export default function App() {
           </div>
         )}
 
+        {/* 0. HOME DASHBOARD TAB */}
+        {activeTab === "home" && (
+          <div className="space-y-8 animate-fade-in" id="home_dashboard_panel">
+            {/* 1. Hero Welcome & Time-Based Greeting Banner */}
+            {(() => {
+              const currentHour = new Date().getHours();
+              let germanGreeting = "Guten Tag";
+              let englishGreeting = "Good day";
+              let greetingEmoji = "🌤️";
+              
+              if (currentHour < 12) {
+                germanGreeting = "Guten Morgen";
+                englishGreeting = "Good morning";
+                greetingEmoji = "☀️";
+              } else if (currentHour >= 18) {
+                germanGreeting = "Guten Abend";
+                englishGreeting = "Good evening";
+                greetingEmoji = "🌙";
+              }
+              
+              // Get next incomplete lesson to recommend
+              const nextLesson = GERMAN_LESSONS.find(les => !completedLessons.includes(les.id)) || GERMAN_LESSONS[0];
+              const overallProgress = Math.min(100, Math.round((completedLessons.length / GERMAN_LESSONS.length) * 105) > 100 
+                ? Math.round((completedLessons.length / GERMAN_LESSONS.length) * 100) 
+                : Math.round((completedLessons.length / GERMAN_LESSONS.length) * 100));
+              
+              const launchLevelLessons = (lvl: "A1" | "A2" | "B1" | "B2" | "C1" | "C2") => {
+                setSidebarLevel(lvl);
+                setActiveTab("lessons");
+              };
+              
+              const resumeLesson = (les: Lesson) => {
+                setSelectedLesson(les);
+                setSidebarLevel(les.level as any);
+                setActiveTab("lessons");
+              };
+
+              return (
+                <div className="space-y-6">
+                  {/* Hero Banner with clean, premium card layout */}
+                  <div className="relative overflow-hidden bg-radial from-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl" id="home_hero_banner">
+                    {/* Background abstract overlay elements */}
+                    <div className="absolute right-0 top-0 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div className="absolute left-1/3 bottom-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+                      <div className="space-y-3 max-w-2xl">
+                        <div className="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700/60 px-3 py-1 rounded-full text-xs text-slate-300">
+                          <span className="flex h-2 w-2 relative">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                          </span>
+                          <span>German Learning Space Active</span>
+                        </div>
+                        
+                        <div className="flex items-center gap-2.5 sm:gap-4 flex-wrap">
+                          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight" id="home_greeting_title">
+                            {germanGreeting}, Schüler! {greetingEmoji}
+                          </h1>
+                        </div>
+                        <p className="text-slate-400 text-xs sm:text-sm font-sans">
+                          ({englishGreeting}, student!) Welcome back to your dashboard. Make learning a daily habit and practice speaking, translation, and structured verb conjugations.
+                        </p>
+                      </div>
+
+                      {/* Overall Progress Meter Widget */}
+                      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 w-full md:w-72 shrink-0 space-y-3.5 backdrop-blur-xs">
+                        <div className="flex justify-between items-baseline font-sans">
+                          <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase">Overall Progress</span>
+                          <span className="text-lg font-black text-amber-400">{overallProgress}%</span>
+                        </div>
+                        <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                          <div
+                            className="bg-gradient-to-r from-rose-500 to-amber-500 h-full rounded-full transition-all duration-500"
+                            style={{ width: `${overallProgress}%` }}
+                          ></div>
+                        </div>
+                        <div className="flex justify-between text-[11px] text-slate-400 font-bold font-sans">
+                          <span>{completedLessons.length} lessons done</span>
+                          <span>{GERMAN_LESSONS.length} total</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2. Interactive Quick Study & Daily Proverb/Word of the Day */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5" id="daily_learning_widgets">
+                    {/* Word of the Day */}
+                    <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-3xs flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center font-sans">
+                          <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-100 uppercase tracking-wider">Word of the Day</span>
+                          <span className="text-[10px] uppercase font-bold text-slate-400">Expand Vocabulary</span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <h3 className="text-lg sm:text-xl font-bold text-slate-900 font-sans font-sans">Ausgezeichnet</h3>
+                          <button
+                            onClick={() => speakGermanWord("Ausgezeichnet")}
+                            className="p-1 rounded-lg text-rose-600 hover:bg-rose-50 active:scale-95 transition-all cursor-pointer"
+                            title="Hear Pronunciation"
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                        <p className="text-xs text-slate-500 font-mono">Pronounced: [OWS-geh-tsych-net]</p>
+                        <p className="text-sm text-slate-700 leading-relaxed font-normal">
+                          Translation: <strong className="font-semibold text-slate-900">Excellent / Outstanding</strong>. Use this to compliment someone's progress or to describe a job extremely well done!
+                        </p>
+                      </div>
+                      <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400 font-sans">
+                        💡 Tip: Try typing "Ausgezeichnet" in the translation tab to review examples.
+                      </div>
+                    </div>
+
+                    {/* Proverb/Idiom of the Day */}
+                    <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-3xs flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center font-sans">
+                          <span className="text-[10px] font-black text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-100 uppercase tracking-wider">Proverb of the Day</span>
+                          <span className="text-[10px] uppercase font-bold text-slate-400">Speak Like a Native</span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight font-sans">Übung macht den Meister</h3>
+                          <button
+                            onClick={() => speakGermanWord("Übung macht den Meister")}
+                            className="p-1 rounded-lg text-rose-600 hover:bg-rose-50 active:scale-95 transition-all cursor-pointer"
+                            title="Hear Pronunciation"
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                        <p className="text-xs text-slate-500 font-mono">Pronounced: [U-bung makht den MY-ster]</p>
+                        <p className="text-sm text-slate-700 leading-relaxed font-normal">
+                          Translation: <strong className="font-semibold text-slate-900">Practice makes perfect</strong>. Literally, "practice makes the master." Keep studying daily to master German!
+                        </p>
+                      </div>
+                      <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400 font-sans">
+                        🇩🇪 Proverb: A classic saying spoken by teachers and native learners alike.
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3. Resume Study Card (Primary Level Recommendation) */}
+                  <div className="bg-amber-50/50 border border-amber-200/70 p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" id="home_resume_card">
+                    <div className="space-y-1">
+                      <span className="text-[9px] font-black tracking-widest text-amber-800 uppercase bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200 font-sans">
+                        Recommended Next Lesson ({nextLesson.level} Series)
+                      </span>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-950 mt-1">
+                        {nextLesson.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 font-medium">
+                        German title: <span className="italic font-semibold text-slate-800">{nextLesson.germanTitle}</span>
+                      </p>
+                      <p className="text-xs text-slate-500 leading-relaxed max-w-xl font-normal">
+                        {nextLesson.description}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => resumeLesson(nextLesson)}
+                      className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl cursor-pointer shadow-xs transition-all shrink-0 active:scale-95 duration-150 self-end sm:self-center group font-sans"
+                    >
+                      <span>Resume Study</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </button>
+                  </div>
+
+                  {/* 4. Level Roadmap Picker Grid */}
+                  <div className="space-y-3.5">
+                    <div className="flex justify-between items-baseline font-sans border-b border-slate-150 pb-1.5">
+                      <h2 className="text-sm font-black text-slate-850 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-rose-600"></span>
+                        CEFR Level Roadmaps
+                      </h2>
+                      <span className="text-[10px] text-slate-400 font-bold">Click any level to view roadmap lessons</span>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="home_level_roadmaps">
+                      {(["A1", "A2", "B1", "B2", "C1", "C2"] as const).map((lvl) => {
+                        const lvlLessons = GERMAN_LESSONS.filter(l => l.level === lvl);
+                        const doneCount = lvlLessons.filter(l => completedLessons.includes(l.id)).length;
+                        const isDone = doneCount === lvlLessons.length && lvlLessons.length > 0;
+                        
+                        return (
+                          <button
+                            key={lvl}
+                            onClick={() => launchLevelLessons(lvl)}
+                            className="group p-3.5 bg-white border border-slate-200 hover:border-slate-350 rounded-2xl shadow-3xs hover:shadow-2xs active:scale-[0.98] transition-all text-left flex flex-col justify-between space-y-3 cursor-pointer font-sans"
+                          >
+                            <div>
+                              <div className="flex justify-between items-center mb-1">
+                                <span className="text-lg font-black text-slate-900 group-hover:text-rose-600 transition-colors">{lvl}</span>
+                                {isDone ? (
+                                  <span className="text-xs">🏆</span>
+                                ) : (
+                                  <span className="text-[9px] font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md border border-slate-200">
+                                    {Math.round((doneCount / (lvlLessons.length || 1)) * 100)}%
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-[10px] text-slate-500 uppercase font-bold block leading-tight">
+                                {lvl === "A1" ? "Beginner" : lvl === "A2" ? "Elementary" : lvl === "B1" ? "Intermediate" : lvl === "B2" ? "Upper Intermediate" : lvl === "C1" ? "Advanced" : "Mastery"}
+                              </span>
+                            </div>
+                            <div className="space-y-1.5">
+                              <div className="w-full bg-slate-100 rounded-full h-1">
+                                <div
+                                  className="h-full bg-emerald-500 rounded-full"
+                                  style={{ width: `${(doneCount / (lvlLessons.length || 1)) * 100}%` }}
+                                ></div>
+                              </div>
+                              <span className="text-[10px] text-slate-400 font-bold block">{doneCount}/{lvlLessons.length} Done</span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* 5. App Interactive Portals / Quick Launch Launchpad */}
+                  <div className="space-y-3.5">
+                    <h2 className="text-sm font-black text-slate-850 uppercase tracking-wider flex items-center gap-2 font-sans border-b border-slate-150 pb-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                      Interactive Study Arenas
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="home_study_arenas">
+                      
+                      {/* Arena: Lessons */}
+                      <button
+                        onClick={() => setActiveTab("lessons")}
+                        className="group p-5 bg-white border border-slate-200 hover:border-emerald-300/80 rounded-2xl shadow-3xs hover:shadow-2xs active:scale-[0.98] transition-all text-left flex flex-col justify-between space-y-4 cursor-pointer font-sans animate-fade-in"
+                      >
+                        <div className="space-y-2">
+                          <div className="p-2.5 bg-emerald-50 rounded-xl w-fit group-hover:bg-emerald-100 transition-colors">
+                            <BookOpen className="w-5 h-5 text-emerald-600" />
+                          </div>
+                          <h3 className="font-extrabold text-slate-950 group-hover:text-emerald-700 transition-colors">Roadmap & Lessons</h3>
+                          <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                            Access our full CEFR lessons. Practice pronouncing standard vowels/consonants and master German sentences.
+                          </p>
+                        </div>
+                        <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform self-end">
+                          <span>Enter Hub</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </span>
+                      </button>
+
+                      {/* Arena: AI Chat */}
+                      <button
+                        onClick={() => setActiveTab("chat")}
+                        className="group p-5 bg-white border border-slate-200 hover:border-blue-300/80 rounded-2xl shadow-3xs hover:shadow-2xs active:scale-[0.98] transition-all text-left flex flex-col justify-between space-y-4 cursor-pointer font-sans animate-fade-in"
+                      >
+                        <div className="space-y-2">
+                          <div className="p-2.5 bg-blue-50 rounded-xl w-fit group-hover:bg-blue-100 transition-colors">
+                            <MessageSquare className="w-5 h-5 text-blue-600" />
+                          </div>
+                          <h3 className="font-extrabold text-slate-950 group-hover:text-blue-700 transition-colors">AI Conversation Partner</h3>
+                          <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                            Practice speaking with simulated German speakers. Gain real-world confidence in cafes or travel scenarios.
+                          </p>
+                        </div>
+                        <span className="text-xs font-bold text-blue-600 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform self-end">
+                          <span>Start Chat</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </span>
+                      </button>
+
+                      {/* Arena: Word Lookup & Conjugation */}
+                      <button
+                        onClick={() => setActiveTab("translator")}
+                        className="group p-5 bg-white border border-slate-200 hover:border-purple-300/80 rounded-2xl shadow-3xs hover:shadow-2xs active:scale-[0.98] transition-all text-left flex flex-col justify-between space-y-4 cursor-pointer font-sans animate-fade-in"
+                      >
+                        <div className="space-y-2">
+                          <div className="p-2.5 bg-purple-50 rounded-xl w-fit group-hover:bg-purple-100 transition-colors">
+                            <Search className="w-5 h-5 text-purple-600" />
+                          </div>
+                          <h3 className="font-extrabold text-slate-950 group-hover:text-purple-700 transition-colors">Dictionary & Conjugations</h3>
+                          <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                            Instantly look up direct English equivalents, exact grammatical genders (der/die/das), and verb inflection tables.
+                          </p>
+                        </div>
+                        <span className="text-xs font-bold text-purple-600 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform self-end">
+                          <span>Search Words</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </span>
+                      </button>
+
+                      {/* Arena: Quizzes */}
+                      <button
+                        onClick={() => setActiveTab("quiz")}
+                        className="group p-5 bg-white border border-slate-200 hover:border-rose-300/80 rounded-2xl shadow-3xs hover:shadow-2xs active:scale-[0.98] transition-all text-left flex flex-col justify-between space-y-4 cursor-pointer font-sans animate-fade-in"
+                      >
+                        <div className="space-y-2">
+                          <div className="p-2.5 bg-rose-50 rounded-xl w-fit group-hover:bg-rose-100 transition-colors">
+                            <Award className="w-5 h-5 text-rose-600" />
+                          </div>
+                          <h3 className="font-extrabold text-slate-950 group-hover:text-rose-700 transition-colors">Quizzes & Mini-Games</h3>
+                          <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                            Challenge yourself with automated sentence jumbles, speed matches, spelling tests, and CEFR chapter assessments.
+                          </p>
+                        </div>
+                        <span className="text-xs font-bold text-rose-600 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform self-end">
+                          <span>Play Games</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </span>
+                      </button>
+
+                      {/* Arena: Practice Center */}
+                      <button
+                        onClick={() => setActiveTab("practice")}
+                        className="group p-5 bg-white border border-slate-200 hover:border-amber-300/80 rounded-2xl shadow-3xs hover:shadow-2xs active:scale-[0.98] transition-all text-left flex flex-col justify-between space-y-4 cursor-pointer font-sans animate-fade-in"
+                      >
+                        <div className="space-y-2">
+                          <div className="p-2.5 bg-amber-50 rounded-xl w-fit group-hover:bg-amber-100 transition-colors">
+                            <Sparkles className="w-5 h-5 text-amber-600" />
+                          </div>
+                          <h3 className="font-extrabold text-slate-950 group-hover:text-amber-700 transition-colors">Adaptive Smart Arena</h3>
+                          <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                            Generate level-custom translations or general exercises and verify real grammar critiques from Gemini.
+                          </p>
+                        </div>
+                        <span className="text-xs font-bold text-amber-600 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform self-end">
+                          <span>Begin Practice</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </span>
+                      </button>
+
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
         {/* 1. LESSONS AND TRACKER TAB */}
         {activeTab === "lessons" && (
           <div className="space-y-4" id="lessons_panel_parent">
@@ -1031,13 +1355,35 @@ export default function App() {
                     
                     return (
                       <div key={lev} className="space-y-3">
-                        <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+                        <div className="flex items-center justify-between pb-1 border-b border-slate-100 flex-wrap gap-2">
                           <span className="text-xs font-black tracking-wider text-slate-500 uppercase">
                             {lev === "A1" ? "Beginner" : lev === "A2" ? "Elementary" : lev === "B1" ? "Intermediate" : lev === "B2" ? "Upper Intermediate" : lev === "C1" ? "Advanced" : "Mastery/C2"} Lessons
                           </span>
-                          <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200 shadow-3xs">
-                            {completedLevCount} / {levLessons.length} Done
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const allLvlIds = levLessons.map(l => l.id);
+                                const hasUncompleted = allLvlIds.some(id => !completedLessons.includes(id));
+                                let updated: string[];
+                                if (hasUncompleted) {
+                                  // Mark all as completed
+                                  updated = Array.from(new Set([...completedLessons, ...allLvlIds]));
+                                } else {
+                                  // Mark all as uncompleted
+                                  updated = completedLessons.filter(id => !allLvlIds.includes(id));
+                                }
+                                setCompletedLessons(updated);
+                                localStorage.setItem("german_hub_completed_lessons", JSON.stringify(updated));
+                              }}
+                              className="text-[10px] font-black uppercase tracking-wider text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 border border-rose-200 hover:border-rose-650 px-2 py-0.5 rounded-lg transition-all cursor-pointer shadow-3xs"
+                            >
+                              {completedLevCount === levLessons.length ? "Reset Level" : "Complete Level"}
+                            </button>
+                            <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200 shadow-3xs">
+                              {completedLevCount} / {levLessons.length} Done
+                            </span>
+                          </div>
                         </div>
 
                         <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
