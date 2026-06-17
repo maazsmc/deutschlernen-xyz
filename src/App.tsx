@@ -21,7 +21,8 @@ import {
   Info,
   Download,
   Wifi,
-  WifiOff
+  WifiOff,
+  RefreshCw
 } from "lucide-react";
 import { GERMAN_LESSONS, Lesson, VocabularyItem } from "./data/lessons";
 import { Logo } from "./components/Logo";
@@ -235,6 +236,41 @@ const MarkdownRenderer: React.FC<{ content: string; isAlphabet?: boolean }> = ({
   );
 };
 
+const GERMAN_QUICK_FACTS = [
+  {
+    title: "German Capitalization",
+    fact: "All German nouns are capitalized! No matter where they stand in a sentence, nouns like 'der Hund' (the dog) or 'das Buch' (the book) always start with a capital letter. This makes them much easier to identify when reading!"
+  },
+  {
+    title: "Compound Words",
+    fact: "German is famous for compound words! You can glue words together without spaces to create new meanings, like 'Handschuhschneeballwerfer' (someone who throws snowballs while wearing gloves)!"
+  },
+  {
+    title: "Three Genders",
+    fact: "There are three grammatical genders: masculine (der), feminine (die), and neuter (das). Oddly, 'Mädchen' (girl) is grammatically neuter (das Mädchen), while 'Baby' is also neuter (das Baby)!"
+  },
+  {
+    title: "Sibling Languages",
+    fact: "English and German are sibling languages from the West Germanic branch. That is why so many basic terms are cognates: 'Haus' (house), 'Wasser' (water), 'Freund' (friend), and 'Milch' (milk)!"
+  },
+  {
+    title: "The Special 'Eszett'",
+    fact: "The character 'ß' (Eszett or 'sharp S') represents a double 's' sound. It never starts a word, and Switzerland is the only German-speaking country that has replaced it completely with 'ss'!"
+  },
+  {
+    title: "Untranslatable Words",
+    fact: "German has wonderful untranslatable descriptions, like 'Fernweh' (the ache to travel/be far away, opposite of homesickness) or 'Kummerspeck' (literally 'grief-bacon' - weight gained from stress-eating)!"
+  },
+  {
+    title: "Literal Names",
+    fact: "German names for things are incredibly literal! A glove is a 'Handschuh' (hand shoe), a vacuum is a 'Staubsauger' (dust sucker), and a turtle is a 'Schildkröte' (shield toad)!"
+  },
+  {
+    title: "Pressing Thumbs",
+    fact: "German speakers don't just say 'good luck'—they say 'Ich drücke dir die Daumen!', which literally means 'I am pressing my thumbs for you!' while squeezing their thumbs!"
+  }
+];
+
 const getDisplayTitle = (les: Lesson) => {
   const levelLessons = GERMAN_LESSONS.filter(l => l.level === les.level);
   const localIndex = levelLessons.findIndex(l => l.id === les.id) + 1;
@@ -245,6 +281,9 @@ const getDisplayTitle = (les: Lesson) => {
 export default function App() {
   // Navigation
   const [activeTab, setActiveTab] = useState<"home" | "lessons" | "chat" | "translator" | "quiz" | "practice">("home");
+
+  // German Quick Fact State
+  const [factIndex, setFactIndex] = useState(() => Math.floor(Math.random() * GERMAN_QUICK_FACTS.length));
 
   // Mobile/Tablet views toggles to avoid over-scrolling layouts
   const [mobileShowRoadmap, setMobileShowRoadmap] = useState<boolean>(false);
@@ -921,25 +960,6 @@ export default function App() {
       {/* Main Container Area */}
       <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6" id="germ_hub_main_layout">
         
-        {/* Secrets & Config Alert Banner if API Key is simulated */}
-        {!process.env.GEMINI_API_KEY && (
-          <div className="mb-6 bg-slate-900 border border-slate-700 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 text-white">
-            <div className="flex gap-3">
-              <div className="p-2 bg-slate-800 rounded-xl h-fit text-amber-400">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm sm:text-base">Experience Real Dynamic AI-Tutoring & Custom Quizzes!</h4>
-                <p className="text-xs sm:text-sm text-slate-300">
-                  Currently running in interactive demo mode. Set the <code className="bg-slate-800 text-amber-200 px-1.5 py-0.5 rounded text-xs font-mono">GEMINI_API_KEY</code> secret to enable live AI grammar checks, conversational feedback, and auto-generated vocabulary quiz boards.
-                </p>
-              </div>
-            </div>
-            <div className="text-xs text-slate-400 border border-slate-700 bg-slate-800/80 px-3 py-1.5 rounded-lg whitespace-nowrap self-start md:self-center">
-              Configure in Settings / Secrets
-            </div>
-          </div>
-        )}
 
         {/* 0. HOME DASHBOARD TAB */}
         {activeTab === "home" && (
@@ -1303,7 +1323,7 @@ export default function App() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8" id="lessons_panel_grid">
               
               {/* Left Sidebar: Step-by-Step Roadmaps */}
-              <div className={`lg:col-span-4 space-y-6 ${mobileShowRoadmap ? "block" : "hidden lg:block"}`}>
+              <div className={`lg:col-span-4 space-y-6 ${mobileShowRoadmap ? "block" : "hidden lg:block"} lg:sticky lg:top-20 self-start`}>
               <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-extrabold text-lg text-slate-900 tracking-tight">Your Progress Roadmap</h3>
@@ -1355,35 +1375,13 @@ export default function App() {
                     
                     return (
                       <div key={lev} className="space-y-3">
-                        <div className="flex items-center justify-between pb-1 border-b border-slate-100 flex-wrap gap-2">
+                        <div className="flex items-center justify-between pb-1 border-b border-slate-100">
                           <span className="text-xs font-black tracking-wider text-slate-500 uppercase">
                             {lev === "A1" ? "Beginner" : lev === "A2" ? "Elementary" : lev === "B1" ? "Intermediate" : lev === "B2" ? "Upper Intermediate" : lev === "C1" ? "Advanced" : "Mastery/C2"} Lessons
                           </span>
-                          <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const allLvlIds = levLessons.map(l => l.id);
-                                const hasUncompleted = allLvlIds.some(id => !completedLessons.includes(id));
-                                let updated: string[];
-                                if (hasUncompleted) {
-                                  // Mark all as completed
-                                  updated = Array.from(new Set([...completedLessons, ...allLvlIds]));
-                                } else {
-                                  // Mark all as uncompleted
-                                  updated = completedLessons.filter(id => !allLvlIds.includes(id));
-                                }
-                                setCompletedLessons(updated);
-                                localStorage.setItem("german_hub_completed_lessons", JSON.stringify(updated));
-                              }}
-                              className="text-[10px] font-black uppercase tracking-wider text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 border border-rose-200 hover:border-rose-650 px-2 py-0.5 rounded-lg transition-all cursor-pointer shadow-3xs"
-                            >
-                              {completedLevCount === levLessons.length ? "Reset Level" : "Complete Level"}
-                            </button>
-                            <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200 shadow-3xs">
-                              {completedLevCount} / {levLessons.length} Done
-                            </span>
-                          </div>
+                          <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200 shadow-3xs">
+                            {completedLevCount} / {levLessons.length} Done
+                          </span>
                         </div>
 
                         <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
@@ -1561,11 +1559,23 @@ export default function App() {
 
               {/* Informative German Fact banner */}
               <div className="bg-slate-100 text-slate-600 text-xs sm:text-sm p-5 rounded-2xl flex items-start gap-3 border border-slate-200">
-                <Info className="w-5 h-5 text-slate-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="font-bold text-slate-800 mb-0.5">German Language Quick Fact:</p>
+                <Info className="w-5 h-5 text-slate-500 mt-1 flex-shrink-0" />
+                <div className="flex-grow min-w-0">
+                  <div className="flex items-center justify-between mb-1.5 gap-2 flex-wrap">
+                    <p className="font-bold text-slate-800">Quick Fact: {GERMAN_QUICK_FACTS[factIndex].title}</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFactIndex((prev) => (prev + 1) % GERMAN_QUICK_FACTS.length);
+                      }}
+                      className="text-[11px] font-extrabold uppercase tracking-wider text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 border border-rose-200 px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>Next Fact</span>
+                    </button>
+                  </div>
                   <p className="leading-relaxed text-slate-600">
-                    Did you know that all German nouns are capitalized? No matter where they stand in a sentence, nouns like <code className="bg-white px-1 py-0.5 border rounded text-slate-800">der Hund</code> (the dog) or <code className="bg-white px-1 py-0.5 border rounded text-slate-800">das Buch</code> (the book) always start with a capital letter. This actually makes them much easier to identify when reading!
+                    {GERMAN_QUICK_FACTS[factIndex].fact}
                   </p>
                 </div>
               </div>
@@ -1603,39 +1613,11 @@ export default function App() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8" id="chat_panel_grid">
               
               {/* Left Column Controls for Chat Setting */}
-              <div className={`lg:col-span-4 space-y-6 ${mobileShowChatSettings ? "block" : "hidden lg:block"}`}>
+              <div className={`lg:col-span-4 space-y-6 ${mobileShowChatSettings ? "block" : "hidden lg:block"} lg:sticky lg:top-20 self-start`}>
               <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
                 <h3 className="font-extrabold text-lg text-slate-900 mb-4 tracking-tight">Your Tutor Settings</h3>
 
                 <div className="space-y-4">
-                  {/* Roleplay scenarios Selector */}
-                  <div>
-                    <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1.5">Roleplay Scenario</label>
-                    <select 
-                      value={chatScenario}
-                      onChange={(e) => {
-                        setChatScenario(e.target.value);
-                        setChatMessages([
-                          {
-                            id: "m0",
-                            role: "assistant",
-                            content: `Hallo! We are starting our roleplay: "${e.target.value}". How would you like to begin in German?`,
-                            translation: `Hello! We are starting our roleplay: "${e.target.value}".`,
-                            timestamp: "Now"
-                          }
-                        ]);
-                        setMobileShowChatSettings(false); // return to chat block automatically
-                      }}
-                      className="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all font-medium"
-                    >
-                      <option value="Casual Conversation">Casual Conversation (Basic Introductions)</option>
-                      <option value="Ordering at Berlin Café">Ordering at Düsseldorf Cafe (Culinary)</option>
-                      <option value="Checking in at Frankfurt Hotel">Checking in at Frankfurt Hotel (Travel)</option>
-                      <option value="Asking for directions in Munich">Asking for Directions in Munich (Interactions)</option>
-                      <option value="Grocery shopping in Hamburg">Grocery Shopping in Hamburg (Daily Tasks)</option>
-                    </select>
-                  </div>
-
                   {/* Level setup selector */}
                   <div>
                     <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1.5">Tutor Level Adapting</label>
@@ -1662,7 +1644,7 @@ export default function App() {
                               : "bg-logo-cream bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
                           }`}
                         >
-                          {lev === "A1" ? "A1 (Begin)" : lev === "A2" ? "A2 (Elem)" : lev === "B1" ? "B1 (Inter)" : lev === "B2" ? "B2 (Upper)" : lev === "C1" ? "C1 (Adv)" : "C2 (Mast)"}
+                          {lev}
                         </button>
                       ))}
                     </div>
@@ -1701,26 +1683,26 @@ export default function App() {
             </div>
 
             {/* Right Column Board: The Chat Session */}
-            <div className={`lg:col-span-8 ${!mobileShowChatSettings ? "block" : "hidden lg:block"}`}>
-              <div className="bg-white border border-slate-200 rounded-3xl shadow-xs overflow-hidden flex flex-col h-[650px]" id="chat_container">
+            <div className={`lg:col-span-8 ${!mobileShowChatSettings ? "block" : "hidden lg:block"} w-full min-w-0`}>
+              <div className="bg-white border border-slate-200 rounded-3xl shadow-xs overflow-hidden flex flex-col h-[500px] sm:h-[600px] lg:h-[650px] max-h-[80vh]" id="chat_container">
                 
                 {/* Visual Status bar header */}
-                <div className="bg-slate-900 text-white p-4 items-center justify-between flex-shrink-0 flex">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
-                    <div>
-                      <p className="text-xs font-bold text-amber-400">AI Tutor Live Conversation</p>
-                      <p className="text-xs text-slate-300 font-medium">Scenario: "{chatScenario}" • Level {chatLevel}</p>
+                <div className="bg-slate-900 text-white p-3 sm:p-4 items-center justify-between flex-shrink-0 flex flex-wrap gap-2">
+                  <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                    <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse flex-shrink-0"></div>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm font-bold text-amber-400 truncate">AI Tutor Live Conversation</p>
+                      <p className="text-[11px] text-slate-300 font-medium truncate">Level {chatLevel} • Active Session</p>
                     </div>
                   </div>
 
-                  <span className="text-[10px] bg-slate-800 text-white font-mono px-2 py-0.5 rounded border border-slate-700">
-                    Gemini 3.5 Assistant
+                  <span className="text-[9px] sm:text-[10px] bg-slate-800 text-slate-200 font-mono px-2 py-0.5 rounded border border-slate-700 whitespace-nowrap">
+                    Active AI
                   </span>
                 </div>
 
                 {/* Conversation Body Messages Area */}
-                <div className="flex-grow p-6 overflow-y-auto space-y-4 bg-slate-50/50">
+                <div className="flex-grow p-3 sm:p-6 overflow-y-auto space-y-4 bg-slate-50/50">
                   {chatMessages.map((msg) => {
                     const isAi = msg.role === "assistant";
                     return (
@@ -1789,20 +1771,20 @@ export default function App() {
                 {/* Chat Footer Input Area */}
                 <form 
                   onSubmit={handleSendChatMessage}
-                  className="bg-white border-t border-slate-200 p-4 flex gap-3 items-center flex-shrink-0"
+                  className="bg-white border-t border-slate-200 p-3 sm:p-4 flex gap-2 sm:gap-3 items-center flex-shrink-0"
                 >
                   <input
                     type="text"
                     value={userChatInput}
                     onChange={(e) => { setUserChatInput(e.target.value); }}
-                    placeholder="Antworten auf Deutsch... (e.g., 'Ich bin gut gelaunt, danke!')"
-                    className="flex-grow bg-slate-100 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all font-medium"
+                    placeholder="Antworten auf Deutsch..."
+                    className="flex-grow bg-slate-100 border border-slate-200 text-slate-800 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all font-medium min-w-0"
                     id="chat_input_text"
                   />
                   <button
                     type="submit"
                     disabled={isSendingChat || !userChatInput.trim()}
-                    className="bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs px-5 py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
+                    className="bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-50 flex-shrink-0"
                     id="chat_submit_btn"
                   >
                     <span>Send</span>
@@ -2408,18 +2390,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* If no practice dataset is active yet */}
-            {!practiceData && !practiceLoading && (
-              <div className="bg-slate-50 border border-slate-200 border-dashed rounded-3xl p-12 text-center max-w-lg mx-auto space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 mx-auto">
-                  <Play className="w-6 h-6 stroke-[1.5]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-extrabold text-slate-800">Your practice session is ready to formulate</h3>
-                  <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">Select a difficulty level (A1, A2, or B1) write/speak/read or listen, and trigger the action above to boot your AI-assisted exercise cards.</p>
-                </div>
-              </div>
-            )}
+
 
             {/* Practice loading skeleton */}
             {practiceLoading && (
@@ -2897,13 +2868,9 @@ export default function App() {
       </main>
 
       {/* Footer footer */}
-      <footer className="bg-white border-t border-slate-200/80 py-8 text-center text-xs text-slate-500 mt-12 flex-shrink-0" id="germ_hub_footer">
-        <div className="max-w-7xl mx-auto px-4 space-y-1.5">
-          <p className="font-bold text-slate-800 tracking-wide">German Language Learning Hub</p>
-          <p className="max-w-md mx-auto text-slate-500 leading-relaxed">
-            Your interactive learning space to master German. Study personalized roadmap lessons, converse with simulated native partners, query expressions, and self-assess using smart offline-ready CEFR exercises.
-          </p>
-          <p className="text-[11px] text-slate-400 pt-1">
+      <footer className="bg-white border-t border-slate-200/80 py-4 text-center text-xs text-slate-400 mt-6 flex-shrink-0" id="germ_hub_footer">
+        <div className="max-w-7xl mx-auto px-4">
+          <p className="text-[11px]">
             &copy; {new Date().getFullYear()} German Hub. Support your daily learning streak!
           </p>
         </div>
